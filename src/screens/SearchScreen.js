@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import Searchbar from "../components/Searchbar";
 import RestaurantsContainer from "../components/RestaurantsContainer";
@@ -9,21 +9,24 @@ const SearchScreen = () => {
   const [term, setTerm] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const filterResultsByPrice = (price) => {
+    return results.filter(result => result.price === price);
+  }
 
   const searchAPI = async () => {
     setLoading(true);
     try {
       const response = await yelp.get("/search", {
         params: {
-          limit: 10,
+          limit: 50,
           term,
-          location: "New York City",
+          location: "USA",
         },
       });
       setResults(response.data.businesses);
       setTerm("");
-      // console.log(results);
       setLoading(false);
     } catch (err) {
       setErrorMessage("Something went wrong ☹️");
@@ -31,17 +34,20 @@ const SearchScreen = () => {
   };
 
   useEffect(() => {
-    searchAPI('pasta')
+    searchAPI("pasta");
   }, []);
-  
 
   return (
     <View style={styles.background}>
       {loading && <Loader errorMessage={errorMessage} onError={setLoading} />}
       <Searchbar term={term} onTermChange={setTerm} onTermSubmit={searchAPI} />
-      <Text style={styles.text}>{term}</Text>
-      <Text style={styles.text}>number of results {results.length}</Text>
-      <RestaurantsContainer />
+      {/* <Text style={styles.text}>{term}</Text>
+      <Text style={styles.text}>number of results {results.length}</Text> */}
+      <ScrollView>
+        <RestaurantsContainer key={1} title='Cheap and good' results={filterResultsByPrice("$")} />
+        <RestaurantsContainer key={2} title='Bit pricier' results={filterResultsByPrice("$$")} />
+        <RestaurantsContainer key={3} title='Big money' results={filterResultsByPrice("$$$")} />
+      </ScrollView>
     </View>
   );
 };

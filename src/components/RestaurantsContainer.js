@@ -1,25 +1,37 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native'
-import React from 'react'
-import RestaurantBox from './RestaurantBox'
+import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
+import React from "react";
+import RestaurantBox from "./RestaurantBox";
 
-const RestaurantsContainer = () => {
+const RestaurantsContainer = ({ title, results }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Cheap and good</Text>
-      <RestaurantBox />
+      <Text style={styles.heading}>{title}</Text>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <View style={styles.scrollBox}>
+          {results.map((result) => (
+            <RestaurantBox result={result} key={result.name} />
+          ))}
+        </View>
+      </ScrollView>
     </View>
-  )
-}
+  );
+};
 
 export default RestaurantsContainer;
 
 const styles = StyleSheet.create({
   heading: {
-    color: 'white',
+    color: "white",
     fontSize: 20,
-    fontWeight: 500
+    fontWeight: 500,
   },
   container: {
-    marginLeft: 20
-  }
-})
+    marginLeft: 20,
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(0,0,0,0.7)",
+  },
+  scrollBox: {
+    flexDirection: "row",
+  },
+});
