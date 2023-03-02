@@ -12,7 +12,7 @@ const Searchbar = ({ term, onTermChange, onTermSubmit }) => {
         style={styles.searchText}
         placeholder="Search bar"
         value={term}
-        onChangeText={onTermChange} //rather than writing(newTerm) => onTermChange(newTerm)i've given direct reference to this function here
+        onChangeText={onTermChange} //rather than writing(newTerm) => onTermChange(newTerm) i've given direct reference to this function here
         onEndEditing={onTermSubmit}
       />
     </View>
