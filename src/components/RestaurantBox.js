@@ -8,7 +8,7 @@ const RestaurantBox = ({result}) => {
   return (
     <View style={styles.container}>
       <Image source={{ uri: result.image_url }} style={styles.image} />
-      <Text style={styles.largeText}>{result.name}</Text>
+      <Text style={styles.largeText}>{result.name.length>20 ? result.name.slice(0,16)+"..." : result.name}</Text>
       <Text style={styles.smallText}>Rating {result.rating}, Reviews {result.review_count}</Text>
     </View>
   );

@@ -9,7 +9,7 @@ const RestaurantsContainer = ({ title, results }) => {
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View style={styles.scrollBox}>
           {results.map((result) => (
-            <RestaurantBox result={result} key={result.name} />
+            <RestaurantBox result={result} key={Math.floor(Math.random() * 100000)} />
           ))}
         </View>
       </ScrollView>

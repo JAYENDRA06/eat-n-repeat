@@ -5,7 +5,7 @@ import RestaurantsContainer from "../components/RestaurantsContainer";
 import yelp from "../api/yelp";
 import Loader from "../components/Loader";
 
-const SearchScreen = () => {
+const SearchScreen = ({navigation}) => {
   const [term, setTerm] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ const SearchScreen = () => {
         params: {
           limit: 50,
           term,
-          location: "USA",
+          location: navigation.state.params.selectedCity,
         },
       });
       setResults(response.data.businesses);
@@ -41,8 +41,7 @@ const SearchScreen = () => {
     <View style={styles.background}>
       {loading && <Loader errorMessage={errorMessage} onError={setLoading} />}
       <Searchbar term={term} onTermChange={setTerm} onTermSubmit={searchAPI} />
-      {/* <Text style={styles.text}>{term}</Text>
-      <Text style={styles.text}>number of results {results.length}</Text> */}
+
       <ScrollView>
         <RestaurantsContainer key={1} title='Cheap and good' results={filterResultsByPrice("$")} />
         <RestaurantsContainer key={2} title='Bit pricier' results={filterResultsByPrice("$$")} />
